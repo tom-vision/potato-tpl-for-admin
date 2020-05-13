@@ -1,5 +1,5 @@
 import axios from "./axios";
-import { Loading, Message } from "element-ui";
+import { Loading, Message, Notification } from "element-ui";
 
 const LoadingOptions = {
   lock: true,
@@ -37,16 +37,16 @@ const states = {};
         : instance[type](url, params, options)
       )
         .then(({ status, msg, data }) => {
-          if (needLoading) loading.close();
-          if (!status && msg) return Message.warning(msg), reject();
-          if (needMsg && msg) Message.success(msg);
           states.moduleName = "ready";
+          if (needLoading) loading.close();
+          if (!status && !!msg) return Message.warning(msg), reject();
+          if (needMsg && !!msg) Message.success(msg);
           resolve(data);
         })
         .catch(err => {
-          if (needLoading) loading.close();
-          Message.error(err.msg);
           states.moduleName = "ready";
+          if (needLoading) loading.close();
+          Message.error({ message: err.msg, duration: 1000 });
           reject(err);
         });
     });

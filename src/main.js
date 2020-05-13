@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Api from "./api/install.js";
+import Uploader from "@/components/Uploader.vue";
 import {
   Input,
   InputNumber,
@@ -93,24 +94,39 @@ Vue.use(Tag);
 Vue.prototype.$msg = Message;
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$prompt = MessageBox.prompt;
 
 Vue.config.devtools = process.env.NODE_ENV === "development";
 
 Vue.mixin({
   methods: {
-    prompt(msg = "请输入") {
-      return MessageBox.prompt(msg, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
-      });
-    },
-    confirm(msg = "确定执行此操作吗？", type = "warning") {
-      return MessageBox.confirm(msg, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: type
+    async uploadImg({ imgs, user, album }) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          if (!imgs.length) return reject("图片不能为空");
+          const req = await this.$api.uploader.upload({
+            user,
+            album,
+            imgs
+          });
+          const { fail, exists, success } = req;
+
+          if (!success.length && fail.length) return reject("上传失败");
+
+          this.$msg(`
+            上传成功 ${success.length} 张，失败 ${fail.length} 张，重复 ${exists.length} 张
+          `);
+
+          resolve(success);
+        } catch (err) {
+          reject(err);
+        }
       });
     }
+  },
+  components: {
+    Uploader
   }
 });
 

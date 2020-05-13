@@ -31,6 +31,10 @@ export default {
       default: ""
     }
   },
+
+  created() {
+    this.content = this.value;
+  },
   components: {
     Editor
   }

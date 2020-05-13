@@ -8,9 +8,6 @@
       el-table-column(label="状态", width="100px")
         template(slot-scope="scope")
           el-switch(v-model="scope.row.ifValid", active-color="#13ce66", inactive-color="#ff4949", @change="statusChange($event, scope.row.id)")
-      el-table-column(label="认证", width="100px")
-        template(slot-scope="scope")
-          el-switch(v-model="scope.row.approve", active-color="#13ce66", inactive-color="#ff4949", @change="statusChange($event, scope.row.id)")
       el-table-column(prop="insertTime", label="创建时间")
       el-table-column(label="操作", width="250px")
         template(slot-scope="scope")
@@ -33,12 +30,12 @@ export default {
     async getAdmin() {},
     async statusChange(status, id) {},
     updatePassword({ $index, row: { id } }) {
-      this.prompt("请输入新密码").then(async ({ value }) => {
+      this.$prompt("请输入新密码").then(async ({ value }) => {
         this.admin[$index].password = value;
       });
     },
     del({ $index, row: { id } }) {
-      this.confirm("确认删除此管理员吗？").then(async res => {
+      this.$confirm("确认删除此管理员吗？", "提示").then(async res => {
         this.admin.splice($index, 1);
       });
     }

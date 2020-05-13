@@ -1,9 +1,7 @@
 import axios from "axios";
-import { baseUrl } from "./baseUrl";
 
 // 创建 axios 实例
 let http = axios.create({
-  baseURL: baseUrl,
   timeout: 60000
 });
 

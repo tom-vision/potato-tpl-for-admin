@@ -17,9 +17,11 @@
           el-breadcrumb-item(:to="{ path: '/home' }") 首页
           el-breadcrumb-item(v-for="b in breadcrumb", :key="b.meta.title") {{b.meta.title}}
         router-view
+        a.feedback(:href="feedBackLink", target="_blank") 意见反馈
 </template>
 
 <script>
+import config from "@/common/config";
 import { constantRoutesMap, asyncRoutesMap } from "../routerMap";
 export default {
   name: "home",
@@ -40,6 +42,9 @@ export default {
     };
   },
   computed: {
+    feedBackLink() {
+      return "https://support.qq.com/product/" + config.feedBackID;
+    },
     breadcrumb() {
       return this.$store.state.breadcrumb;
     }
@@ -51,7 +56,6 @@ export default {
     },
     // 退出登录
     exit() {
-      this.$store.dispatch("exit");
       window.location.href = "/";
     }
   }
@@ -124,5 +128,12 @@ export default {
 .el-breadcrumb {
   height: 40px;
   line-height: 40px;
+}
+.feedback {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: #999;
+  margin-top: 20px;
 }
 </style>

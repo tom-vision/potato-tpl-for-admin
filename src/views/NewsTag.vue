@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     addTag() {
-      this.prompt("请输入标签名称").then(({ value, action }) => {
+      this.$prompt("请输入标签名称").then(({ value, action }) => {
         if (action == "confirm") {
           console.log(value);
         }
