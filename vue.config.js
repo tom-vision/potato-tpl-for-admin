@@ -20,7 +20,7 @@ module.exports = {
         }
       },
       "/sso": {
-        target: configs.sso.host,
+        target: configs.sso.parseHost,
         pathRewrite: {
           "^/sso": ""
         }

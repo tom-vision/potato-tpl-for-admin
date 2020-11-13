@@ -13,7 +13,7 @@ switch (process.env.NODE_ENV) {
   case "production":
     baseUrl = config.apiHost;
     uploadUrl = config.uploadHost;
-    ssoUrl = config.sso.host;
+    ssoUrl = config.sso.parseHost;
     break;
 }
 

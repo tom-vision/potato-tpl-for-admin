@@ -2,6 +2,7 @@ import axios from "axios";
 
 // 创建 axios 实例
 let http = axios.create({
+  headers: { "Content-Type": "application/json" },
   timeout: 60000
 });
 
@@ -13,7 +14,7 @@ http.defaults.headers.put["Content-Type"] = "application/json";
 http.interceptors.request.use(
   config => {
     if (config.method === "post" || config.method === "put") {
-      // post、put 提交时，将对象转换为string, 为处理Java后台解析问题
+      // post、put 提交时，将对象转换为string
       config.data = JSON.stringify(config.data);
     }
     // 请求时携带token
