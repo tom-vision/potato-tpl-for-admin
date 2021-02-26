@@ -1,4 +1,5 @@
 import axios from "axios";
+import _ from "../common/utils";
 
 // 创建 axios 实例
 let http = axios.create({
@@ -18,7 +19,7 @@ http.interceptors.request.use(
       config.data = JSON.stringify(config.data);
     }
     // 请求时携带token
-    const token = window.localStorage.getItem("token");
+    const token = _.urlSearchParam("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -35,26 +36,18 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   response => {
     let { data } = response;
-    // 返回data里含token则保存至localstorage
-    if (data.token) {
-      window.localStorage.setItem("token", response.data.token);
-    }
     return data;
   },
   error => {
     let info = {};
-    let { status, statusText, data } = error.response;
-    // 响应错误状态码为401时移除token并重定向至根目录
-    if (status === 401) {
-      window.localStorage.removeItem("token");
-      window.location.href = "/";
-    }
     if (!error.response) {
       info = {
         code: 5000,
         msg: "Network Error"
       };
     } else {
+      let { status, statusText, data } = error.response;
+      console.log(error.response);
       // 此处整理错误信息格式
       info = {
         code: status,

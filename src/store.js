@@ -18,6 +18,9 @@ const store = new Vuex.Store({
   mutations: {
     updateBreadcrumb(state, breadcrumb) {
       state.breadcrumb = breadcrumb;
+    },
+    updateState(state, { key, data }) {
+      state[key] = data;
     }
   },
   actions: {

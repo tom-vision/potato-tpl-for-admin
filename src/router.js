@@ -22,9 +22,13 @@ router.beforeEach(async (to, from, next) => {
   if (!_.urlSearchParam("token")) {
     location.href = `http://dev.xinlantech.com/sso/#/?redirect=${config.sso.appname}&response_type=code&appid=${config.sso.appid}&state=`;
   } else {
-    if (!Store.state.user.id) {
+    if (!Store.state.user.userid) {
       const parse = await Store.dispatch("parseToken");
-      next();
+      Store.commit("updateState", {
+        key: "user",
+        data: parse
+      });
+      next("/home/news");
     } else {
       next();
     }

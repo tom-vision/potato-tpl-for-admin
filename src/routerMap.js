@@ -1,16 +1,3 @@
-let constantRoutesMap = [
-  {
-    path: "/home",
-    component: () => import("./views/Home.vue"),
-    children: []
-  },
-  {
-    path: "*",
-    name: "notFound",
-    component: () => import("./views/notFound.vue")
-  }
-];
-
 const asyncRoutesMap = [
   {
     path: "news",
@@ -134,6 +121,19 @@ const asyncRoutesMap = [
         component: () => import("./views/RoleNew.vue")
       }
     ]
+  }
+];
+
+let constantRoutesMap = [
+  {
+    path: "/home",
+    component: () => import("./views/Home.vue"),
+    children: asyncRoutesMap
+  },
+  {
+    path: "*",
+    name: "notFound",
+    component: () => import("./views/notFound.vue")
   }
 ];
 

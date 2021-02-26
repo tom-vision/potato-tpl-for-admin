@@ -13,7 +13,7 @@
         ul
           li(v-for="m in subMenus", :key="m.name", v-text="m.name", @click="$router.push(m.link)", :class="{ 'active': $route.path == m.link }")
       el-main
-        el-breadcrumb(separator="/")
+        //- el-breadcrumb(separator="/")
           el-breadcrumb-item(:to="{ path: '/home' }") 首页
           el-breadcrumb-item(v-for="b in breadcrumb", :key="b.meta.title") {{b.meta.title}}
         router-view
